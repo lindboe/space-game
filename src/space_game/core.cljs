@@ -6,6 +6,23 @@
 (defonce game (p/create-game (.-innerWidth js/window) (.-innerHeight js/window)))
 (defonce state (atom {}))
 
+(defn square-grid
+  "Draw a square grid with given number of squares along a side, of the given
+  square width."
+  [game num-squares square-width]
+  (let [window-width (p/get-width game)
+        window-height (p/get-height game)
+        grid-width (* num-squares square-width)
+        width-center (/ window-width 2)
+        height-center (/ window-height 2)
+        half-line-width (/ grid-width 2)
+        top-line-left-x (int (- width-center half-line-width))
+        top-line-right-x (int (+ width-center half-line-width))
+        left-line-top-y (int (- height-center half-line-width))
+        left-line-bottom-y (int (+ height-center half-line-width))]
+    [[:line {:x1 top-line-left-x, :y1 left-line-top-y, :x2 top-line-right-x, :y2 left-line-top-y}]
+     [:line {:x1 top-line-left-x, :y1 left-line-top-y, :x2 top-line-left-x, :y2 left-line-bottom-y}]]))
+
 (def main-screen
   (reify p/Screen
     (on-show [this]
@@ -13,10 +30,8 @@
     (on-hide [this])
     (on-render [this]
       (p/render game
-        [[:fill {:color "lightblue"}
-          [:rect {:x 0 :y 0 :width (.-innerWidth js/window) :height (.-innerHeight js/window)}]]
-         [:fill {:color "black"}
-          [:text {:value "Hello, world!" :x (:text-x @state) :y (:text-y @state) :size 16 :font "Georgia" :style :italic}]]]))))
+         (square-grid game 5 50)))))
+
 
 (events/listen js/window "mousemove"
   (fn [event]
