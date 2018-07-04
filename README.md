@@ -17,3 +17,10 @@ the application in a browser (localhost:3000), and in the repl client you
 should see a "connected!" message after a moment, and now you should be able to
 require cljs files and send javascript to the browser. (Note: incognito windows
 do not seem to work at the moment.)
+
+### Testing
+
+To run the clojure tests, run `boot testing test`. (The "testing" part adds the
+test/ directory to the source paths.)
+
+To run clojurescript tests, run `boot testing test-cljs`.

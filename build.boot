@@ -8,6 +8,8 @@
                   [weasel                  "0.7.0"  :scope "test"]
                   [org.clojure/tools.nrepl "0.2.12" :scope "test"]
                   [adzerk/boot-reload "0.5.2" :scope "test"]
+                  [adzerk/boot-test "1.2.0" :scope "test"]
+                  [crisptrutski/boot-cljs-test "0.3.5-SNAPSHOT" :scope "test"]
                   [pandeiro/boot-http "0.8.3" :scope "test"]
                   [javax.xml.bind/jaxb-api "2.3.0" :scope "test"] ; necessary for Java 9 compatibility
                   ; project deps
@@ -20,6 +22,8 @@
   '[adzerk.boot-cljs :refer [cljs]]
   '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]]
   '[adzerk.boot-reload :refer [reload]]
+  '[adzerk.boot-test :refer :all]
+  '[crisptrutski.boot-cljs-test :refer [test-cljs]]
   '[pandeiro.boot-http :refer [serve]])
 
 (deftask run []
@@ -48,3 +52,5 @@
 (deftask build []
   (set-env! :resource-paths #(conj % "prod-resources"))
   (comp (cljs :optimizations :advanced) (target)))
+
+(deftask testing [] (merge-env! :source-paths #{"test"}) identity)
