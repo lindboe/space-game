@@ -4,5 +4,6 @@ pom.xml
 pom.xml.asc
 **/gen
 **/target
+out
 .*
 !.gitignore
