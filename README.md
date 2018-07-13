@@ -22,5 +22,3 @@ do not seem to work at the moment.)
 
 To run the clojure tests, run `boot testing test`. (The "testing" part adds the
 test/ directory to the source paths.)
-
-To run clojurescript tests, run `boot testing test-cljs`.
