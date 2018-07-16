@@ -61,3 +61,24 @@
   [intended-coordinates grid]
   (and (move-within-bounds? intended-coordinates grid)
        (move-to-unoccupied-square? intended-coordinates grid)))
+
+(defn move
+  [old-coordinates entity intended-coordinates grid]
+  (if (valid-move? intended-coordinates grid)
+    (-> grid
+        (assoc-in [:state old-coordinates] nil)
+        (assoc-in [:state intended-coordinates] entity))
+    grid))
+
+;; okay this is the first part where my plan isn't as simple as i'd hoped. now
+;; i need to look things up by which entity we want to move, delete that entry
+;; in the map and add a new entry in the map. we could pass around the old
+;; coordinates, we'll have known them from the user clicking on them, that
+;; simplifies the map lookup.
+;; but there's another part, the validation that the entity can reach the spot
+;; the user indicates (if player-controlled). putting that in the valid-move?
+;; fn might not make too much sense; should it instead be tied to the character
+;; entity? should there be separate move validation on both the grid and the
+;; entity, or maybe move all of the move validation to the character entity
+;; (which can access the static data about grid size, and the current
+;; occupation state?
