@@ -32,3 +32,32 @@
   [character-list]
 
   )
+
+(defn initialize-grid
+  "example: (initialize-grid 5 5 {[0 2] :unitname})"
+  [width height grid-state]
+  {:width width
+   :height height
+   :state grid-state})
+
+(def test-minimal-grid
+  (initialize-grid 5 5 {[0 2] :enemy ;; [x y] :unitname
+                        [3 4] :friendly}))
+
+(defn move-within-bounds?
+  "Checks whether the intended coordinates of a move are within the bounds
+  defined by the grid."
+  ;; Leave validating that the coordinates are proper data (vec of int, not negative) to schema or spec.
+  [intended-coordinates grid]
+  (let [x-within-width? (> (:width grid) (first intended-coordinates))
+        y-within-height? (> (:height grid) (second intended-coordinates))]
+    (and x-within-width? y-within-height?)))
+
+(defn move-to-unoccupied-square?
+  [intended-coordinates grid]
+  (nil? (get-in grid [:state intended-coordinates])))
+
+(defn valid-move?
+  [intended-coordinates grid]
+  (and (move-within-bounds? intended-coordinates grid)
+       (move-to-unoccupied-square? intended-coordinates grid)))

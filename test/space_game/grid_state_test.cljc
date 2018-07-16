@@ -14,3 +14,27 @@
                                    {:name :testperson
                                     :coordinates [2 4]})]
     (is (= :testperson (nth (nth new-grid 4) 2)))))
+
+(def test-minimal-grid
+  (gs/initialize-grid 5 5 {[0 2] :enemy ;; [x y] :unitname
+                           [3 4] :friendly}))
+
+(deftest move-within-bounds?-test
+  (testing "move is within grid bounds"
+    (is (= true (gs/move-within-bounds? [0 0] test-minimal-grid))))
+  (testing "move is outside grid bounds"
+    (is (= false (gs/move-within-bounds? [5 0] test-minimal-grid)))
+    (is (= false (gs/move-within-bounds? [0 5] test-minimal-grid)))))
+
+(deftest move-to-unoccupied-square?-test
+  (testing "move is to an unoccupied square"
+    (is (= true (gs/move-to-unoccupied-square? [0 0] test-minimal-grid)))
+  (testing "move is to an unoccupied square"
+    (is (= false (gs/move-to-unoccupied-square? [0 2] test-minimal-grid))))))
+
+(deftest valid-move?-test
+  (testing "move is valid"
+    (= true (gs/valid-move? [0 0] test-minimal-grid)))
+  (testing "move is not valid"
+    (= false (gs/valid-move? [0 2] test-minimal-grid))
+    (= false (gs/valid-move? [5 0] test-minimal-grid))))
