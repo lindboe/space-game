@@ -15,4 +15,7 @@
     
     Current algorithm is HP loss = Attacker's Attack - Defender's Defense"
   [attacker target]
-  (update target :health - (- (:attack attacker) (:defense target))))
+  (let [attack (:attack attacker)
+        defense (:defense target)
+        hp-loss (max (- attack defense) 0)]
+    (update target :health - hp-loss)))
