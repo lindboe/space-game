@@ -52,3 +52,59 @@
              (concat (repeat-lines-x left-line num-squares square-width)
                      (repeat-lines-y top-line num-squares square-width)))]
     grid))
+
+(defn grid-line-positions
+  "Given a square width, number of squares along the x and y axes, and window
+  width and window height, give coordinates for beginning of each line in the x
+  and y directions.
+
+  Example:
+
+  {:x [50 100 150 200 250]
+   :y [60 110 160 210 260]}
+
+  or maybe
+
+  {:x-along-top [50 100 150 200 250]
+   :y-along-left [60 110 160 210 260]
+   :x-along-bottom [250 300 350 400 450]
+   :y-along-right [260 310 360 410 460]}
+  "
+  [square-width squares-x squares-y window-width window-height]
+  )
+
+;; maybe instead of referring to these as "coordinates" and "position" i should
+;; refer to the internal coordinates as "relative" and the display coordinates
+;; as "absolute"?
+(defn top-left-position-of-coord
+  [coordinates top-of-grid-pos left-of-grid-pos square-width]
+  (let [x-pos (+ top-of-grid-pos (* (first coordinates) square-width))
+        y-pos (+ left-of-grid-pos (* (second coordinates) square-width))]
+    [x-pos y-pos]))
+
+(defn another-way-to-generate-grid
+  [square-width squares-x squares-y window-width window-height]
+   (let [grid-width (* squares-x square-width)
+         grid-height (* squares-y square-width)
+         width-center (/ window-width 2)
+         height-center (/ window-height 2)
+         half-width (/ grid-width 2)
+         half-height (/ grid-height 2)
+         left-x (int (- width-center half-width))
+         top-y (int (- height-center half-height))
+         horizontal-lines [[left-x, top-y, (+ left-x grid-width), top-y]
+                           [left-x, top-y, (+ left-x grid-width), (+ top-y (* 1 square-width))]
+                           [left-x, top-y, (+ left-x grid-width), (+ top-y (* 2 square-width))]
+                           ]
+         ])
+  )
+
+;; based on the above hardcoded horizontal lines
+(defn repeat-horizontal-lines
+  [num-repeats distance top-pos left-pos width]
+  )
+
+(defn render-entity
+  [grid-coordinates]
+  [:ellipse {:x 1 :y 1 :width 50 :height 50}])
+;; I think I want a function that returns the grid as positional data, eg left line here, next line here... or can tell me where each coordinate is {[0 0] {:x1 1 :y1 1}...}; just something that can let me know the top-left of each coordinate
