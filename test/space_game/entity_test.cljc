@@ -7,8 +7,8 @@
         posX 10
         posY 20
         health 50
-        attack 10
-        defense 10
+        attack 70
+        defense 60
         janeway (entity/create-entity name posX posY health attack defense)]
     (is (= name (:name janeway)))
     (is (= {:x posX :y posY} (:pos janeway)))
@@ -38,4 +38,4 @@
           gorn (assoc base-gorn :defense gorn-defense)
           attacked-gorn (entity/attack kirk gorn)]
         ; Defense exceeded attack, so Gorn should take no damage
-        (is (= gorn attacked-gorn)))))
+      (is (= gorn attacked-gorn)))))
